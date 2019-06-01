@@ -1,0 +1,10 @@
+# import * from '../generated/prisma.graphql'
+
+# don't forget to update the resolvers after adding type definitions here
+type Mutation {
+  addPost(id: ID): Post
+}
+
+type Query {
+  users: [User]!
+}
