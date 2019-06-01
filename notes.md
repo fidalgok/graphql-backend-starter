@@ -9,10 +9,17 @@ To get started configure the Prisma services first. This allows for a quick and 
   cd project-name
   prisma init
 ```
+The CLI will walk you through creating the prisma service
 
-Using the prisma cli and prisma init command sets up a few prisma boilerplate files for you after going through the cli prompts. This project uses a demo database and javascript client to quickly build a graphql server backend.
+1. For ease of development choose Demo server option (more instructions on prisma.io)
+2. Choose the region
+3. Make a name for the service
+4. choose a name for the stage: default of "dev" is fine
+5. Choose not to generate the client
 
-Prisma init generates a couple files for you ```prisma.yml``` &amp; ```datamodel.prisma```. The ```.yml``` file contains your basic configuration for connecting to the Prisma Server and what language you want your generated schema files in. The ```.prisma``` file is the datamodel for the application. There are a few things to add/configure in the .yml file right off the bat.
+Prisma init generates a couple files for you ```prisma.yml``` &amp; ```datamodel.prisma```. The ```.yml``` file contains your basic configuration for connecting to the Prisma Server and what language you want your generated schema files in. The ```.prisma``` file is the datamodel for the application. Go ahead and create a prisma folder then move the files to the prisma folder for sake of organization.
+
+There are a few things to add/configure in the .yml file right off the bat.
 
 __Important__: make sure to grab the prisma endpoint and add it to your variables.env.sample file. Then remove the .sample extension. This file helps set up environment variables so you don't expose secrets to your git repository. Don't push this to your git repository!!!
 
@@ -22,10 +29,8 @@ datamodel: datamodel.prisma
 #secret: ${env:PRISMA_SECRET}
 
 generate:
-  - generator: javascript-client
-    output: ./generated/prisma-client/
   - generator: graphql-schema
-    output: ./generated/prisma.graphql
+    output: ../generated/prisma.graphql
 ```
 
 Since the interactive CLI wizard creates a minimal Prisma config adding the above to the .yml file allows for some easy automation of pulling the ```.graphql``` file during deployment.
@@ -33,9 +38,9 @@ Since the interactive CLI wizard creates a minimal Prisma config adding the abov
 Now move the auto-generated files to the prisma directory.
 
 Next run prisma deploy to auto-generate your prisma server graphql API
-
+This script is already set up in the package.json file to include the .env file.
 ```
-  prisma deploy
+  npm run deploy
 ```
 
 Each time you want to make changes to the datamodel you need to update the prisma/datamodel.prisma file. Mainly you will just be creating your custom types there. Then you run ```prisma deploy``` when you want to auto generate your schema files to be consumed by the graphql yoga server.
@@ -45,6 +50,8 @@ All of your custom server logic will be in the ```src/``` directory. The db file
 The ```src/createServer.js``` file pulls together your schema ```typedefs.graphql``` and your resolvers and sets up the function to create the server which is called in the index.js file.
 
 index.js simply sets up the environment variables and starts up the server created in the createServer file. You then tell it to listen for requests coming from a specific location with CORS. This will be the location of your front end.
+
+Now you are ready to ```npm i``` the rest of your dependencies and try running the server! The next steps go over how to manage the flow of creating new data types and resolvers for your public facing API.
 
 ## The Backend GraphQL flow
 
@@ -67,9 +74,5 @@ __Adding data to your datamodel__
     - access to the db was set on the ctx object so we have easy access here. You can either return the promise directly or use async/await if you need to do extra processing before returning the object.
     - info passes along the original query from the client and passes along information to the prisma service.
     - the forwardto function will simply pass everything as is directly to the underlying prisma service if you don't need to do any customization to the query or mutation.
-
-
-
-
 
 [Prisma Docs]: https://www.prisma.io/docs

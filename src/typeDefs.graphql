@@ -1,8 +1,8 @@
 # import * from '../generated/prisma.graphql'
 
-# don't forget to update the resolvers after adding type definitions here
+# don't forget to update the resolvers after adding type definitions here, make changes here when you're ready to start adding functionality to your API, starting off with two very basic implementations to start creating your application.
 type Mutation {
-  addPost(id: ID): Post
+  createUser(name: String! email: String!): User!
 }
 
 type Query {
