@@ -17,7 +17,9 @@ The CLI will walk you through creating the prisma service
 4. choose a name for the stage: default of "dev" is fine
 5. Choose not to generate the client
 
-Prisma init generates a couple files for you ```prisma.yml``` &amp; ```datamodel.prisma```. The ```.yml``` file contains your basic configuration for connecting to the Prisma Server and what language you want your generated schema files in. The ```.prisma``` file is the datamodel for the application. Go ahead and create a prisma folder then move the files to the prisma folder for sake of organization.
+Prisma init generates a couple files for you ```prisma.yml``` &amp; ```datamodel.prisma```. The ```.yml``` file contains your basic configuration for connecting to the Prisma Server and what language you want your generated schema files in. The ```.prisma``` file is the datamodel for the application.
+
+Go ahead and create a prisma folder then move the files to the prisma folder for sake of organization.
 
 There are a few things to add/configure in the .yml file right off the bat.
 
@@ -35,8 +37,6 @@ generate:
 
 Since the interactive CLI wizard creates a minimal Prisma config adding the above to the .yml file allows for some easy automation of pulling the ```.graphql``` file during deployment.
 
-Now move the auto-generated files to the prisma directory.
-
 Next run prisma deploy to auto-generate your prisma server graphql API
 This script is already set up in the package.json file to include the .env file.
 ```
@@ -51,7 +51,7 @@ The ```src/createServer.js``` file pulls together your schema ```typedefs.graphq
 
 index.js simply sets up the environment variables and starts up the server created in the createServer file. You then tell it to listen for requests coming from a specific location with CORS. This will be the location of your front end.
 
-Now you are ready to ```npm i``` the rest of your dependencies and try running the server! The next steps go over how to manage the flow of creating new data types and resolvers for your public facing API.
+Now you are ready to ```npm i``` the rest of your dependencies and try running the server with ```npm run dev```! The next steps go over how to manage the flow of creating new data types and resolvers for your public facing API.
 
 ## The Backend GraphQL flow
 
